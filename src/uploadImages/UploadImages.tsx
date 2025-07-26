@@ -1,9 +1,10 @@
 import { useState } from "react";
 import styles from "./UploadImages.module.css";
+import { numberOfPhotosNeeded } from "../logic/generateMono";
 interface IUploadImagesProps {
+  count: number;
   images: File[];
   onImagesChange: (images: File[]) => void;
-  onComplete: () => void;
 }
 
 export const UploadImages = (props: IUploadImagesProps) => {
@@ -32,7 +33,7 @@ export const UploadImages = (props: IUploadImagesProps) => {
     const files = event.target.files;
     if (files) {
       const fileArray = Array.from(files);
-      props.onImagesChange(fileArray);
+      props.onImagesChange([...props.images, ...fileArray]);
     }
   };
 
@@ -52,21 +53,14 @@ export const UploadImages = (props: IUploadImagesProps) => {
         />
 
         <p>Drag and drop files here, or click to browse</p>
-        {props.images.length > 0 && (
-          <p>Uploaded Images ({props.images.length}): </p>
-        )}
+        <p>
+          Uploaded Images ({props.images?.length ?? 0}/
+          {numberOfPhotosNeeded(props.count)}){" "}
+        </p>
       </div>
 
       {props.images.length > 0 && (
         <div className={styles.imagesSection}>
-          <div className={styles.completeButtonContainer}>
-            <button
-              className={styles.completeButton}
-              onClick={props.onComplete}
-            >
-              Complete Upload
-            </button>
-          </div>
           <div className={styles.imagesContainer}>
             {props.images.map((image, index) => (
               <div className={styles.imageContainer} key={index}>

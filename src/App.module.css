@@ -1,17 +1,39 @@
-
-.container{
-height: 100dvh;
-display: grid;
-grid-template-rows: auto 1fr;
-
+.container {
+  height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .header {
-  padding: 1rem;
-  background-color: #5db3a8;
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  background-color: #074940;
+    justify-content: space-between;
+    align-items: end;
+  text-align: start;
+  padding: 0 0.5rem;
+}
+.header h1 {
+  color: white;
+  margin: 0;
+  padding: 0.25rem;
 }
 
 .main {
   overflow: hidden;
+}
+
+.canvas {
+  background-color: #5d4242;
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    align-items: start;
+    flex-direction: column;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+  }
 }

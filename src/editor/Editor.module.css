@@ -1,0 +1,51 @@
+.container {
+  padding: 0.5rem 0rem;
+  display: flex;
+  flex-direction: column;
+
+  scrollbar-gutter: stable both-edges;
+  overflow-y: auto;
+  height: 100%;
+
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.container h2 {
+  margin: 0;
+}
+
+.color {
+  gap: 0.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.color input {
+  width: 100%;
+  max-width: 100px;
+  text-align: center;
+  padding: 0.25rem;
+  height: 3rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.count {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.count select {
+  width: 100%;
+  max-width: 100px;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.count option {
+  padding: 0.5rem;
+}

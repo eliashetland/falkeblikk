@@ -1,12 +1,7 @@
 .container {
-  background-image: url("/public/backdrop.jpg");
-  background-size: cover;
-  aspect-ratio: 3/2;
-
-  position: relative;
-
+  height: fit-content;
 }
 
-.figure {
-  position: absolute;
+.canvas {
+  width: 100%;
 }

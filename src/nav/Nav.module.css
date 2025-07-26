@@ -1,0 +1,41 @@
+.nav {
+  display: flex;
+
+  gap: 0.5rem;
+  width: 100%;
+  width: 100%;
+  max-width: 500px;
+}
+
+.nav label {
+  display: flex;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  user-select: none;
+  height: fit-content;
+}
+
+.nav input[type="radio"] {
+  display: none;
+}
+
+/* selected state styling */
+.nav input[type="radio"]:checked + label {
+  background: #fff;
+  border-color: #ccc;
+  border-bottom: 2px solid white;
+  position: relative;
+  z-index: 1;
+}
+
+@media screen and (min-width: 600px) {
+  .nav label {
+     padding: 0.5rem 1rem;
+  }
+}

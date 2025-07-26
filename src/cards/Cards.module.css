@@ -1,13 +1,40 @@
 .container {
-  padding: 1rem;
+  height: 100%;
+}
+
+.scrollContainer {
+  padding: 0.5rem 0rem;
   display: grid;
 
-  scrollbar-gutter: stable;
+  scrollbar-gutter: stable both-edges;
   overflow-y: auto;
   height: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+  position: relative;
+}
+
+.downloadButton {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: #5db3a8;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}
+
+.warning {
+  color: #ff0000;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin: 0;
 }
