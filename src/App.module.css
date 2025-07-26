@@ -1,0 +1,17 @@
+
+.container{
+height: 100dvh;
+display: grid;
+grid-template-rows: auto 1fr;
+
+}
+
+.header {
+  padding: 1rem;
+  background-color: #5db3a8;
+  text-align: center;
+}
+
+.main {
+  overflow: hidden;
+}
