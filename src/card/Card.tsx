@@ -98,7 +98,7 @@ export const Card = (props: ICardProps) => {
     <div className={styles.container}>
       {props.card.map((item, index) => (
         <div className={styles.figure} key={index} style={positions[index]}>
-          <Figure item={item} key={index} image={props.images[index]} />
+          <Figure item={item} key={index} image={props.images[item]} />
         </div>
       ))}
     </div>

@@ -1,6 +1,10 @@
 // export const validCardSizes = [2, 3, 4, 5, 6, 8, 12, 14, 18, 20];
 export const validCardSizes = [2, 3, 4, 5, 6, 8];
 
+export const numberOfPhotosNeeded = (n: number): number => {
+    return n * (n - 1) + 1; 
+}
+
 export function generateMonomatch(n: number): number[][] {
 
 
