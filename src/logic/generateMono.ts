@@ -1,8 +1,8 @@
-// export const validCardSizes = [2, 3, 4, 5, 6, 8, 12, 14, 18, 20];
-export const validCardSizes = [2, 3, 4, 5, 6, 8];
+// export const validCardSizes = [2, 3, 4, 6, 8, 12, 14, 18, 20];
+export const validCardSizes = [2, 3, 4, 6, 8];
 
 export const numberOfPhotosNeeded = (n: number): number => {
-    return n * (n - 1) + 1; 
+    return n * (n - 1) + 1;
 }
 
 export function generateMonomatch(n: number): number[][] {
@@ -44,41 +44,42 @@ export function generateMonomatch(n: number): number[][] {
         }
     }
 
+
     return cards.sort(() => Math.random() - 0.5);
 }
 
-// const validateMono = (mono: number[][]) => {
-//     if (mono.length === 0) {
-//         console.error("Mono is empty.");
-//         return false;
-//     }
-//     const n = mono[0].length;
-//     const cardCount = mono.length;
+export const validateMono = (mono: number[][]) => {
+    if (mono.length === 0) {
+        console.error("Mono is empty.");
+        return false;
+    }
+    const n = mono[0].length;
+    const cardCount = mono.length;
 
-//     // for each card, check if it has only one match in each other card
-//     for (let i = 0; i < cardCount; i++) {
-//         const firstCard = mono[i];
+    // for each card, check if it has only one match in each other card
+    for (let i = 0; i < cardCount; i++) {
+        const firstCard = mono[i];
 
-//         for (let j = 0; j < cardCount; j++) {
-//             if (i === j) continue; // skip self
+        for (let j = 0; j < cardCount; j++) {
+            if (i === j) continue; // skip self
 
-//             const secondCard = mono[j];
-//             let matchCount = 0;
+            const secondCard = mono[j];
+            let matchCount = 0;
 
-//             for (let k = 0; k < n; k++) {
-//                 if (firstCard.includes(secondCard[k])) {
-//                     matchCount++;
-//                 }
-//             }
+            for (let k = 0; k < n; k++) {
+                if (firstCard.includes(secondCard[k])) {
+                    matchCount++;
+                }
+            }
 
-//             if (matchCount !== 1) {
-//                 console.log(firstCard, secondCard);
+            if (matchCount !== 1) {
+                console.log(firstCard, secondCard);
 
-//                 console.error(`Cards ${i + 1} and ${j + 1} do not match correctly.`);
-//                 return false;
-//             }
-//         }
-//     }
+                console.error(`Cards ${i + 1} and ${j + 1} do not match correctly.`);
+                return false;
+            }
+        }
+    }
 
-//     return true;
-// };
+    return true;
+};
