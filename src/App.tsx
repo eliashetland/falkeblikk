@@ -8,11 +8,13 @@ import { Nav } from "./nav/Nav";
 
 export type Page = "cards" | "editor" | "images";
 
+
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>("cards");
   const [options, setOptions] = useState<IOptions>({
     color: "#e8e8e8",
     count: 3,
+    layout: "random",
   });
 
   const [images, setImages] = useState<File[]>([]);

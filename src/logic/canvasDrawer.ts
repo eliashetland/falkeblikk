@@ -1,22 +1,5 @@
 import type { ICardProps } from "../card/Card";
 
-const getPositionCss = (
-    width: number,
-    left: number,
-    top: number,
-    height: number,
-    rotate: number
-) => {
-    return {
-        position: "absolute" as const,
-        transform: `rotate(${rotate}deg)`,
-        top: `${top}%`,
-        left: `${left}%`,
-        width: `${width}%`,
-        height: `${height}%`,
-    };
-};
-
 const shuffleArray = (array: any[]) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -57,7 +40,6 @@ const getPositions = (count: number) => {
     const cellIndices = shuffleArray(
         Array.from({ length: cols * rows }, (_, i) => i)
     );
-    const positionsCss = [];
     const positions = [];
 
     for (let i = 0; i < count; i++) {
@@ -82,11 +64,31 @@ const getPositions = (count: number) => {
         const rotate = Math.random() * 20 - 10; // Random rotation between -5 and 5 degrees
 
         positions.push({ width, left, top, height, rotate });
-        positionsCss.push(getPositionCss(width, left, top, height, rotate));
     }
-    return { positions, positionsCss };
+    return { positions };
 };
 
+const getArrangedPositions = (count: number) => {
+    const padding = 5;
+    const cellWidth = (100 - 2 * padding) / count;
+    const maxHeight = 60;
+
+    const positions = [];
+    for (let i = 0; i < count; i++) {
+
+        const left = (i * cellWidth) + padding;
+        const top = padding + (100 - 2 * padding - maxHeight);
+
+        positions.push({
+            width: cellWidth, // Fixed width
+            left,
+            top,
+            height: maxHeight,
+            rotate: 0, // No rotation
+        });
+    }
+    return { positions };
+};
 
 const imageUrlCache = new Map<File, string>();
 
@@ -100,7 +102,7 @@ const getCachedUrl = (file: File) => {
 const loadImage = (file: File): Promise<HTMLImageElement> => {
     return new Promise((resolve) => {
         if (!file) {
-            resolve(new Image());
+            resolve(new Image(10, Math.random() * 20 + 5));
             return;
         }
         const img = new Image();
@@ -110,9 +112,11 @@ const loadImage = (file: File): Promise<HTMLImageElement> => {
     });
 };
 
+
+
 export const drawCard = async (
     props: ICardProps,
-    canvasRef?: React.RefObject<HTMLCanvasElement | null>
+    canvasRef?: React.RefObject<HTMLCanvasElement | null>,
 ) => {
     if (!canvasRef || !canvasRef.current) return;
 
@@ -120,18 +124,45 @@ export const drawCard = async (
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const { positions } = getPositions(props.card.length);
+    const { positions } = props.options.layout === "random"
+        ? getPositions(props.card.length)
+        : getArrangedPositions(props.card.length);
 
     // Load all images
     const images = await Promise.all(
         props.card.map((item) => loadImage(props.images[item]))
+
     );
 
     // Clear canvas and fill background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = props.options.color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    if (props.options.backgroundImage) {
+        const bgImage = await loadImage(props.options.backgroundImage);
+        const bgAspect = bgImage.width / bgImage.height;
+        const canvasAspect = canvas.width / canvas.height;
+
+        let drawWidth, drawHeight, offsetX, offsetY;
+
+        if (bgAspect > canvasAspect) {
+            // Background is wider — fill height, crop width
+            drawHeight = canvas.height;
+            drawWidth = canvas.height * bgAspect;
+        } else {
+            // Background is taller — fill width, crop height
+            drawWidth = canvas.width;
+            drawHeight = canvas.width / bgAspect;
+        }
+
+        offsetX = (canvas.width - drawWidth) / 2;
+        offsetY = (canvas.height - drawHeight) / 2;
+
+        ctx.drawImage(bgImage, offsetX, offsetY, drawWidth, drawHeight);
+
+    } else {
+        ctx.fillStyle = props.options.color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
     // Draw each image with position and aspect ratio adjustments
     images.forEach((img, index) => {
         const { width, left, top, height, rotate } = positions[index];
@@ -156,15 +187,34 @@ export const drawCard = async (
         }
 
         ctx.save();
-        ctx.translate(pxLeft + pxWidth / 2, pxTop + pxHeight / 2);
+
+        const alignFromBottom = props.options.layout === "arranged";
+        const translateX = pxLeft + pxWidth / 2;
+        const translateY = alignFromBottom ? pxTop + pxHeight : pxTop + pxHeight / 2;
+
+        ctx.translate(translateX, translateY);
         ctx.rotate((rotate * Math.PI) / 180);
-        ctx.drawImage(
-            img,
-            -drawWidth / 2,
-            -drawHeight / 2,
-            drawWidth,
-            drawHeight
-        );
+
+        const drawX = -drawWidth / 2;
+        const drawY = alignFromBottom
+            ? -drawHeight
+            : -drawHeight / 2;
+
+        if (props.useShapes) {
+
+            ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
+        } else {
+
+
+            ctx.drawImage(
+                img,
+                drawX,
+                drawY,
+                drawWidth,
+                drawHeight
+            );
+        }
         ctx.restore();
     });
 };

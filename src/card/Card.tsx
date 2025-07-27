@@ -6,6 +6,7 @@ export interface ICardProps {
   card: number[];
   images: File[];
   options: IOptions;
+  useShapes?: boolean;
 }
 
 export const Card = (props: ICardProps) => {
@@ -13,7 +14,7 @@ export const Card = (props: ICardProps) => {
 
   useEffect(() => {
     drawCard(props, canvasRef);
-  }, [props.card, props.images, props.options]);
+  }, [props.card, props.images, props.options, props.useShapes]);
 
   return (
     <div className={styles.container}>
