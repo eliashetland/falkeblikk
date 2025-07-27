@@ -11,14 +11,16 @@ interface ICardsProps {
 
 export const Cards = (props: ICardsProps) => {
   const saveCanvas = () => {
-    const canvases = document.querySelectorAll("canvas");
 
-    for (const canvas of canvases) {
-      const link = document.createElement("a");
-      link.download = "falkeblikk.png";
-      link.href = canvas.toDataURL();
-      link.click();
-    }
+const canvases = document.querySelectorAll("canvas");
+
+canvases.forEach((canvas, index) => {
+  const link = document.createElement("a");
+  link.download = `falkeblikk_${index + 1}.png`; // Unique filename using index
+  link.href = canvas.toDataURL();
+  link.click();
+});
+
   };
 
   return (

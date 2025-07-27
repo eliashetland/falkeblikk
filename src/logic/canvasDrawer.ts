@@ -71,13 +71,13 @@ const getPositions = (count: number) => {
 const getArrangedPositions = (count: number) => {
     const padding = 5;
     const cellWidth = (100 - 2 * padding) / count;
-    const maxHeight = 60;
+    const maxHeight = 70;
 
     const positions = [];
     for (let i = 0; i < count; i++) {
 
         const left = (i * cellWidth) + padding;
-        const top = padding + (100 - 2 * padding - maxHeight);
+        const top = (100 - maxHeight);
 
         positions.push({
             width: cellWidth, // Fixed width
