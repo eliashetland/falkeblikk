@@ -34,8 +34,8 @@ const getPositions = (count: number) => {
     const padding = 5; // % of cell size
     const maxWidth = 70;
     const maxHeight = 80;
-    const minWidth = 20; // % of cell size
-    const minHeight = 40; // % of cell size
+    const minWidth = 60; // % of cell size
+    const minHeight = 70; // % of cell size
 
     const cellIndices = shuffleArray(
         Array.from({ length: cols * rows }, (_, i) => i)
